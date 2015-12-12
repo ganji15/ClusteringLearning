@@ -1,3 +1,10 @@
+'''
+Author: GanJi
+No.201518008629004
+
+Spectral Clustering
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os

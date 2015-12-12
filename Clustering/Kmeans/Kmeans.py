@@ -1,3 +1,10 @@
+'''
+Author: GanJi
+No.201518008629004
+
+K-means Clustering
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io as sio
