@@ -10,3 +10,6 @@
 
 * 实验结果
 ![clusterin_result](https://github.com/gj597519372/ClusteringLearning/blob/master/Clustering/SpetralClustering/SpectralClustering.png)
+
+###Contact
+ganjigj@qq.com
