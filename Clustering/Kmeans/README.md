@@ -11,4 +11,4 @@ K均值聚类算法样例
 ![keans_result](https://github.com/gj597519372/ClusteringLearning/blob/master/Clustering/Kmeans/k-mean.png)
 
 ###Contact
-* ganjigj@qq.com
+* ganji15@mails.ucas.ac.cn
