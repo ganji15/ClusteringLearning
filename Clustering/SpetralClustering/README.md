@@ -12,4 +12,4 @@
 ![clusterin_result](https://github.com/gj597519372/ClusteringLearning/blob/master/Clustering/SpetralClustering/SpectralClustering.png)
 
 ###Contact
-ganjigj@qq.com
+* ganji15@mails.ucas.ac.cn
