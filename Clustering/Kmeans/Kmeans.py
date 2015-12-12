@@ -1,4 +1,4 @@
-'''
+﻿'''
 Author: GanJi
 No.201518008629004
 
@@ -78,7 +78,22 @@ def generate_data():
     #plt.show()
     sio.savemat(location + mat_name, {'X': X})
     print 'Data Generated in' + location + mat_name
-           
+
+def calc_ms_error(data, groups, means):
+    m = len(data)
+    k = len(groups) 
+
+    per_cluster_counts = [len(group) for group in groups]
+    
+    origin_means = []
+    for i in range(0, k):
+        origin_means.append(sum(data[i * m / k : (i + 1) * m / k]) / (m / k))
+    
+    ms_error = sum([calc_dist(means[i], origin_means[i]) for i in range(0, k)]) / k
+    ms_error = np.sqrt(ms_error)
+
+    return ms_error, per_cluster_counts
+
 def k_means(data, k):
     iter_times_limit = 5
     
@@ -92,7 +107,6 @@ def k_means(data, k):
         groups.append(list([]))
 
     for iter_time in range(0, iter_times_limit): 
-        print '\n'
         for i in range(0, k):
             groups[i] = []
 
@@ -100,7 +114,6 @@ def k_means(data, k):
             groups[ nearest_neigbor(means, data[i])].append( i)
         
         for i in range(0, k):
-            print len(groups[i])
             means[i] = sum(data[j] for j in groups[i]) * 1.0 / len(groups[i])            
     
     return means, groups
@@ -113,4 +126,26 @@ def run():
     means, groups = k_means(X, 5)
     plot_regresstion(means, groups, X)
 
-run()
+def test():
+    if os.path.exists(location + mat_name) == False:
+        generate_data()
+    mvn_data = sio.loadmat(location + mat_name)
+    X = mvn_data['X']
+
+    test_times = 2
+    for i in range(0, test_times):
+        means, groups = k_means(X, 5)
+        ms_error, per_cluster_counts = calc_ms_error(X, groups, means)
+        np.set_printoptions(precision = 2)
+        print '====Test' + "%d"%(i + 1) + '===='
+        print 'Cluster Means:'
+        for mean in means:
+            print mean
+        print '\nPoints number of per cluster:'
+        print per_cluster_counts
+        print '\nmean square error:'
+        print ms_error
+        print '\n'
+
+#run()
+test()
