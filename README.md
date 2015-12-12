@@ -8,4 +8,4 @@
 * Matlab2014a
 
 ##联系方式
-ganjigj@qq.com
+ganji15@mails.ucas.ac.cn
