@@ -12,6 +12,7 @@ import os
 location = os.path.split(os.path.realpath(__file__))[0] + '\\'
 data_name = 'spectrum_data.txt'
 fig_name = 'SpectralClustering.png'
+origin_fig = 'origin_data.png'
 
 calc_dist = lambda x, y: sum(i * i for i in (x - y))
 norm_vec = lambda x : x / np.sqrt(sum(i * i for i in x))
@@ -125,6 +126,12 @@ def plot_regresstion(groups, data):
     plt.savefig(location + fig_name)
     plt.show()
 
+def plot_origin_data(data):
+    plt.figure()
+    plt.title('origin data')
+    plt.scatter(data[:, 0], data[:, 1], marker = '.')
+    plt.savefig(location + origin_fig)
+
 def spectrum_regression(data, k, k_edge = 10, varance = 10):
     t_data = get_uniform_k_eig_mat( calc_Lsym(data, k_edge, varance), k)
     groups = k_means(t_data, k)
@@ -136,6 +143,7 @@ def run():
         raw_input('press any key')
         return
     data = np.loadtxt(location + data_name, delimiter = ' ')
+    #plot_origin_data(data)
     groups = spectrum_regression(data, 2, 10, 10)
     plot_regresstion(groups, data)
 
