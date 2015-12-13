@@ -13,6 +13,8 @@ location = os.path.split(os.path.realpath(__file__))[0] + '\\'
 data_name = 'spectrum_data.txt'
 fig_name = 'SpectralClustering.png'
 origin_fig = 'origin_data.png'
+test_kedge_fig = 'kedge_influence.png'
+test_varance_fig = 'varance_influence.png'
 
 calc_dist = lambda x, y: sum(i * i for i in (x - y))
 norm_vec = lambda x : x / np.sqrt(sum(i * i for i in x))
@@ -43,7 +45,7 @@ def k_means(data, k):
         groups.append(list([]))
 
     for iter_time in range(0, iter_times_limit): 
-        print '\n'
+        #print '\n'
         for i in range(0, k):
             groups[i] = []
 
@@ -51,7 +53,7 @@ def k_means(data, k):
             groups[ nearest_neigbor(means, data[i])].append( i)
         
         for i in range(0, k):
-            print len(groups[i])
+            #print len(groups[i])
             means[i] = sum(data[j] for j in groups[i]) * 1.0 / len(groups[i])            
     
     return groups
@@ -97,10 +99,7 @@ def get_uniform_k_eig_mat(Lsym, k):
     eig_vecs = eig_vecs.real
 
     counts = 0
-    U = []
     T = []
-    for i in np.argsort(eig_values):
-        print eig_values[i]
 
     for i in np.argsort(eig_values):
         if (eig_values[i] > 0.0000001):
@@ -137,6 +136,54 @@ def spectrum_regression(data, k, k_edge = 10, varance = 10):
     groups = k_means(t_data, k)
     return groups
    
+def calc_accurance_rate(groups):
+    k = len(groups)
+    m = sum([len(group) for group in groups])
+
+    correct_count = 0
+    for i in range(0, k):
+        correct_count += sum([(idx > i * m / k) and (idx < (i + 1) * m / k) for idx in groups[i]])
+
+    return correct_count * 1.0 / m
+
+def test_kedge(data, k = 2):
+    print 'Test Kedge...'
+    k_edges = range(2, 20)
+    
+    correct_rates = []
+    for k_edge in k_edges:
+        correct_rate = calc_accurance_rate( spectrum_regression(data, k, k_edge, 0.6))
+        correct_rates.append(correct_rate)
+
+    plt.figure()
+    plt.title('Accurate of K_edge')
+    plt.grid()
+    plt.xlabel('K_edge')
+    plt.ylabel('Accurate')
+    plt.plot(k_edges, correct_rates)
+    plt.savefig(location + test_kedge_fig)
+    #plt.show()
+    print 'Kedge Test over'
+
+def test_varance(data, k = 2):
+    print 'Test Varance...'
+    varances = np.arange(0.01, 0.5, 0.02)
+    
+    correct_rates = []
+    for varance in varances:
+        correct_rate = calc_accurance_rate( spectrum_regression(data, k, 10, varance))
+        correct_rates.append(correct_rate)
+
+    plt.figure()
+    plt.title('Accurate of varance')
+    plt.grid()
+    plt.xlabel('varance')
+    plt.ylabel('Accurate')
+    plt.plot(varances, correct_rates)
+    plt.savefig(location + test_varance_fig)
+    #plt.show()
+    print 'Varance Test over'
+
 def run():
     if os.path.exists(location + data_name) == False:
         print 'CAN\'T find ' + location + data_name +',\nthe Data for spectral clustering is MISSING!\n'
@@ -147,4 +194,14 @@ def run():
     groups = spectrum_regression(data, 2, 10, 10)
     plot_regresstion(groups, data)
 
-run()
+def test():
+    if os.path.exists(location + data_name) == False:
+        print 'CAN\'T find ' + location + data_name +',\nthe Data for spectral clustering is MISSING!\n'
+        raw_input('press any key')
+        return
+    data = np.loadtxt(location + data_name, delimiter = ' ')
+    test_kedge(data, 2)
+    test_varance(data, 2)
+
+test()
+#run()
