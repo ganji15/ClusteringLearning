@@ -97,15 +97,13 @@ def get_uniform_k_eig_mat(Lsym, k):
     eig_vecs = eig_vecs.real
 
     counts = 0
-    U = []
     T = []
     for i in np.argsort(eig_values):
         print eig_values[i]
 
     for i in np.argsort(eig_values):
-        if (eig_values[i] > 0.0000001):
-            T.append( norm_vec(eig_vecs[:, i]))
-            counts = counts + 1
+        T.append( norm_vec(eig_vecs[:, i]))
+        counts = counts + 1
         if counts >= k:
             break
 
