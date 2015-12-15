@@ -102,7 +102,8 @@ def get_uniform_k_eig_mat(Lsym, k):
     T = []
 
     for i in np.argsort(eig_values):
-        if (eig_values[i] > 0.0000001):
+        #if (eig_values[i] > 0.0000001):
+	if (eig_values[i]):
             T.append( norm_vec(eig_vecs[:, i]))
             counts = counts + 1
         if counts >= k:
@@ -191,7 +192,7 @@ def run():
         return
     data = np.loadtxt(location + data_name, delimiter = ' ')
     #plot_origin_data(data)
-    groups = spectrum_regression(data, 2, 10, 10)
+    groups = spectrum_regression(data, 2, 10, 1)
     plot_regresstion(groups, data)
 
 def test():
