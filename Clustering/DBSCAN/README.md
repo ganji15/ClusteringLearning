@@ -6,10 +6,10 @@ DBSCAN聚类算法样例
 
 ## 实验结果
 * 原始数据
-![origin_data](https://github.com/gj597519372/ClusteringLearning/blob/master/Clustering/SpetralClustering/origin_data.png)
+![origin_data](https://github.com/gj597519372/ClusteringLearning/blob/master/Clustering/DBSCAN/origin_data.png)
 
 * 实验结果
-![clusterin_result](https://github.com/gj597519372/ClusteringLearning/blob/master/Clustering/DBCAN/dbscan.png)
+![clustering_result](https://github.com/gj597519372/ClusteringLearning/blob/master/Clustering/DBSCAN/dbscan.png)
 
 ###Contact
 * ganji15@mails.ucas.ac.cn
