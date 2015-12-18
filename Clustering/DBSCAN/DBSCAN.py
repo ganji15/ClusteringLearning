@@ -57,19 +57,19 @@ def dbscan_gression_by_types(types, dists, bound):
         que.queue.clear()
         que.put(cores[0])
         visit[cores[0]] = 1
-        group = [cores[0]]
+        group = []
         while que.empty() == False:
             cur = que.get()
+            group.append(cur)
 
             for reach in reachs:
                 if visit[reach] == 0 and is_neigbor(cur, reach, dists, bound):
                     group.append(reach)
-                    visit[reach] == 1
+                    visit[reach] = 1
 
             for new_c in cores:
                if visit[new_c] == 0 and is_neigbor(cur, new_c, dists, bound):
                    que.put(new_c)
-                   group.append(new_c)
                    visit[new_c] = 1
 
         groups.append(group)
@@ -90,7 +90,7 @@ def plot_regresstion(groups, data):
     plt.title('DBSCAN Clustering')
 
     for i in range(0, m - 1):
-        group = np.vstack([data[j] for j in groups[i]]);
+        group = np.vstack([data[j] for j in groups[i]])
         plt.scatter(group[:, 0], group[:, 1], color = color_map[i], marker = '.')
 
     group = np.vstack([data[j] for j in groups[m - 1]]);
