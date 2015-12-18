@@ -106,7 +106,7 @@ def DBSCAN(data, core_num, bound):
 
 def run():
     if os.path.exists(location + data_name) == False:
-        print 'CAN\'T find ' + location + data_name +',\nthe Data for spectral clustering is MISSING!\n'
+        print 'CAN\'T find ' + location + data_name +',\nthe Data for DBSCAN clustering is MISSING!\n'
         raw_input('press any key')
         return
     data = np.loadtxt(location + data_name, delimiter = ' ')
