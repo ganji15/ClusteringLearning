@@ -45,9 +45,10 @@ def calc_densities(dists, bound):
 def calc_peak_dists(dists, bound, densities):
     m = len(dists)
     peak_dists = np.zeros((m, 1), dtype = 'float')
-
+	
+    max_densities = max(densities)
     for i in range(0, m):
-        if densities[i] != max(densities):
+        if densities[i] != max_densities:
             peak_dists[i] = min([dists[i, j] for j in range(0, m) if densities[j] > densities[i]])
         else:
             peak_dists[i] = max([dists[i, j] for j in range(0, m)])
