@@ -1,5 +1,5 @@
 #Clustering by fast search and find of density peaks
-一种基于密度的快速聚类算法，是发表于2014年science上的一个新的聚类算法，论文地址[http://www.sciencemag.org/content/344/6191/1492.short](http://www.sciencemag.org/content/344/6191/1492.short).
+一种基于密度的快速聚类算法，是发表于2014年science上新的聚类算法，论文地址[http://www.sciencemag.org/content/344/6191/1492.short](http://www.sciencemag.org/content/344/6191/1492.short).
 
 ## 编程环境
 * Python2.7 + Numpy + Scipy + Matplotlib
