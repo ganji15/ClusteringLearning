@@ -1,12 +1,24 @@
+'''
+Author: Ganji
+Email: ganji15@mails.ucas.ac.cn
+
+Clustering by fast search and find of density peaks
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io as sio
 import os
 
 location = os.path.split(os.path.realpath(__file__))[0] + '\\'
-data_list = ['Spiral.txt', 'Aggregation.txt']
-fig_list = ['Spiral.png', 'Aggregation.png']
-tmp_fig = 'density_and_dists.png'
+data_list = ['Spiral.txt', 'Aggregation.txt', 'Compound.txt', 'R15.txt']
+fig_list = ['Spiral.png', 'Aggregation.png', 'Compound.png', 'R15.png']
+tmp_fig_list = ['Spiral_densitypeak.png', 'Aggregation_densitypeak.png', 'Compound_densitypeak.png', 'R15_densitypeak.png']
+params = [[9, 10, 15],\
+          [9, 10, 15],\
+          [8, 10, 15],\
+          [0.1, 1, 10]]
+#for param in params: param=>[bound, min_peakdist, min_density]
 
 calc_dist = lambda x, y: ( sum(i * i for i in (x - y)))
 
@@ -18,7 +30,7 @@ def calc_dists(data):
         for i in range(0, j):
             dists[i, j] = calc_dist(data[i], data[j])
             dists[j, i] = dists[i, j]
-              
+
     return dists
 
 def calc_densities(dists, bound):
@@ -78,31 +90,28 @@ def DensityPeak(data, bound, min_peakdist, min_density):
 
     return labels, densities, peak_dists, cores
 
-def plot_density_and_dist(data, origin_label, densities, peak_dists, cores):
+def plot_density_and_dist(data, origin_label, densities, peak_dists, tmp_fig):
     m = len(densities)
     
-    color_map = ['c', 'b', 'k', 'g', 'm', 'r', 'y']
+    color_map = ['g', 'm', 'r', 'y', 'c', 'b', 'k', '#FF00FF']
     plt.figure()
     plt.title('Densitiy and Dists')
     
     for i in range(0, m):
-        plt.scatter(densities[i], peak_dists[i], color = color_map[int(origin_label[i]) % 7])
+        plt.scatter(densities[i], peak_dists[i], color = color_map[int(origin_label[i]) % 8])
 
-    for core in cores:
-        plt.scatter(densities[core], peak_dists[core], color = 'r')
-
-    plt.savefig(location + tmp_fig)
+    plt.savefig(tmp_fig)
     plt.show()
 
 def plot_regresstion(data, labels, result_fig,cores = []):
     m = len(data)
-    color_map = ['c', 'b', 'k', 'g', 'm', 'r', 'y']
+    color_map = ['g', 'm', 'r', 'y', 'c', 'b', 'k', '#FF00FF']
     
     plt.figure()
     plt.title('DensityPeak Clustering')
 
     for i in range(0, m):
-        plt.scatter(data[i, 0], data[i, 1], color = color_map[int(labels[i]) % 7], marker = '.')
+        plt.scatter(data[i, 0], data[i, 1], color = color_map[int(labels[i]) % 8], marker = '.')
     
     for core in cores:
         plt.scatter(data[core, 0], data[core, 1], color = 'r', marker = '.')
@@ -110,23 +119,25 @@ def plot_regresstion(data, labels, result_fig,cores = []):
     plt.savefig(result_fig)
     plt.show()
 
-def example(data_name, result_fig):
+def example(data_name, param, result_fig, tmp_fig = ''):
     if os.path.exists(data_name) == False:
         print 'CAN\'T find ' + data_name +',\nthe Data for spectral clustering is MISSING!\n'
         raw_input('press any key')
         return
     print '====example begin: ' + data_name + '...===='
     data = np.loadtxt(data_name, delimiter = ',')
-    #origin_labels = data[:,2]
+    origin_labels = data[:,2]
     data = data[:, 0 : 2]
-    labels, densities, peak_dists, cores = DensityPeak(data, 9, 10, 15)
-    #plot_density_and_dist(data, origin_labels, densities, peak_dists, cores)
+    labels, densities, peak_dists, cores = DensityPeak(data, param[0], param[1], param[2])
+    if tmp_fig.strip():    
+        plot_density_and_dist(data, origin_labels, densities, peak_dists, tmp_fig)
     plot_regresstion(data, labels, result_fig)
     print 'save regression result into ' + result_fig
     print '====example end.====\n'
 
 def run():
     for i in range(0, len(data_list)):
-        example(location + data_list[i], location + fig_list[i])
-    
+        #example(location + data_list[i], params[i], location + fig_list[i], location + tmp_fig_list[i])
+        example(location + data_list[i], params[i], location + fig_list[i])
+      
 run()

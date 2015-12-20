@@ -1,6 +1,6 @@
 '''
-Author: GanJi
-No.201518008629004
+Author: Ganji
+Email: ganji15@mails.ucas.ac.cn
 
 K-means Clustering
 '''

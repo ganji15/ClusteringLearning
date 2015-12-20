@@ -1,3 +1,10 @@
+'''
+Author: Ganji
+Email: ganji15@mails.ucas.ac.cn
+
+Density-Based Spatial Clustering of Applications with Noise
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os
